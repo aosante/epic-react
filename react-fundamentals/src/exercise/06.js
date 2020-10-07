@@ -1,11 +1,11 @@
 // Basic Forms
 // http://localhost:3000/isolated/exercise/06.js
 
-import React, {useState, useRef} from 'react'
+import React, {useState} from 'react'
 
 function UsernameForm({onSubmitUsername}) {
-  const [error, setError] = useState(null)
-  const usernameInputRef = useRef(null)
+  // const [error, setError] = useState(null)
+  const [username, setUsername] = useState('')
   // 🐨 add a submit event handler here (`handleSubmit`).
   // 💰 Make sure to accept the `event` as an argument and call
   // `event.preventDefault()` to prevent the default behavior of form submit
@@ -23,13 +23,13 @@ function UsernameForm({onSubmitUsername}) {
 
   const handleSubmit = event => {
     event.preventDefault()
-    onSubmitUsername(usernameInputRef.current.value)
+    onSubmitUsername(username)
   }
 
   const handleChange = event => {
     const {value} = event.target
-    const isValid = value === value.toLowerCase()
-    setError(isValid ? null : 'username needs to be lower cased')
+    setUsername(value.toLowerCase())
+    // setError(isValid ? null : 'username needs to be lower cased')
   }
 
   return (
@@ -39,14 +39,12 @@ function UsernameForm({onSubmitUsername}) {
         <input
           id="usernameInput"
           type="text"
-          ref={usernameInputRef}
           onChange={handleChange}
+          value={username}
         />
       </div>
-      <div>{Boolean(error) && <span style={{color: 'red'}}>{error}</span>}</div>
-      <button type="submit" disabled={Boolean(error)}>
-        Submit
-      </button>
+      {/* <div>{Boolean(error) && <span style={{color: 'red'}}>{error}</span>}</div> */}
+      <button type="submit">Submit</button>
     </form>
   )
 }
