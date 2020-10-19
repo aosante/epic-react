@@ -9,6 +9,7 @@ function useLocalStorageState(
   defaultValue = '',
   {serialize = JSON.stringify, deserialize = JSON.parse} = {},
 ) {
+  // passing in a function to useState makes it so that it runs only the first time it's rendered.
   const [state, setState] = React.useState(() => {
     const valueInLocalStorage = window.localStorage.getItem(key)
     if (valueInLocalStorage) {
