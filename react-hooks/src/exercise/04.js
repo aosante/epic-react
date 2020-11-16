@@ -1,14 +1,16 @@
 // useState: tic tac toe
 // http://localhost:3000/isolated/exercise/04.js
 
-import React from 'react'
+import React, {useState} from 'react'
 
 function Board() {
   // 🐨 squares is the state for this component. Add useState for squares
-  const squares = Array(9).fill(null)
+  const [squares, setSquares] = useState(Array(9).fill(null))
 
   // 🐨 We'll need the following bits of derived state:
-  // - nextValue ('X' or 'O')
+  const nextValue = calculateNextValue(squares)
+  const winner = calculateWinner(squares)
+  const status = calculateStatus(winner, squares, nextValue)
   // - winner ('X', 'O', or null)
   // - status (`Winner: ${winner}`, `Scratch: Cat's game`, or `Next player: ${nextValue}`)
   // 💰 I've written the calculations for you! So you can use my utilities
@@ -78,7 +80,6 @@ function Game() {
   )
 }
 
-// eslint-disable-next-line no-unused-vars
 function calculateStatus(winner, squares, nextValue) {
   return winner
     ? `Winner: ${winner}`
@@ -87,14 +88,12 @@ function calculateStatus(winner, squares, nextValue) {
     : `Next player: ${nextValue}`
 }
 
-// eslint-disable-next-line no-unused-vars
 function calculateNextValue(squares) {
   const xSquaresCount = squares.filter(r => r === 'X').length
   const oSquaresCount = squares.filter(r => r === 'O').length
   return oSquaresCount === xSquaresCount ? 'X' : 'O'
 }
 
-// eslint-disable-next-line no-unused-vars
 function calculateWinner(squares) {
   const lines = [
     [0, 1, 2],
