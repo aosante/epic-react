@@ -40,7 +40,7 @@ class Board extends React.Component {
     this.updateLocalStorage()
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(_, prevState) {
     if (prevState.squares !== this.state.squares) {
       this.updateLocalStorage()
     }
