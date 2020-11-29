@@ -16,7 +16,7 @@ function Board() {
   )
 
   useEffect(() => {
-    updateLocalStorage()
+    window.localStorage.setItem('squares', JSON.stringify(squares))
   }, [squares])
 
   const selectSquare = square => {
@@ -37,11 +37,6 @@ function Board() {
 
   const restart = () => {
     setSquares(Array(9).fill(null))
-    updateLocalStorage()
-  }
-
-  const updateLocalStorage = () => {
-    window.localStorage.setItem('squares', JSON.stringify(squares))
   }
 
   const nextValue = calculateNextValue(squares)
