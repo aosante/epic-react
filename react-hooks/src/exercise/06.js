@@ -66,12 +66,14 @@ function PokemonInfo({pokemonName}) {
   }
 
 }
+// https://github.com/bvaughn/react-error-boundary#error-recovery
 
-function ErrorFallback({error}) {
+function ErrorFallback({error, resetErrorBoundary}) {
   return (
     <div role="alert">
         There was an error:{' '}
         <pre style={{whiteSpace: 'normal'}}>{error.message}</pre>
+        <button onClick={resetErrorBoundary}>Try again</button>
       </div>
   )
 }
@@ -83,13 +85,16 @@ function App() {
     setPokemonName(newPokemonName)
   }
 
+  function handleReset() {
+    setPokemonName('')
+  }
+
   return (
     <div className="pokemon-info-app">
       <PokemonForm pokemonName={pokemonName} onSubmit={handleSubmit} />
       <hr />
       <div className="pokemon-info">
-        {/* key prop for error boundary enables React to recover from errors proper;y */}
-        <ErrorBoundary  FallbackComponent={ErrorFallback} key={pokemonName}>
+        <ErrorBoundary  FallbackComponent={ErrorFallback} onReset={handleReset}>
         <PokemonInfo pokemonName={pokemonName} />
         </ErrorBoundary>
       </div>
