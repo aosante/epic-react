@@ -1,7 +1,8 @@
 // useEffect: HTTP requests
 // http://localhost:3000/isolated/exercise/06.js
 
-import React, {useState, useEffect, Component} from 'react'
+import React, {useState, useEffect} from 'react'
+import {ErrorBoundary} from 'react-error-boundary'
 // 🐨 you'll want the following additional things from '../pokemon':
 // fetchPokemon: the function we call to get the pokemon info
 // PokemonInfoFallback: the thing we show while we're loading the pokemon info
@@ -13,19 +14,19 @@ import {
   fetchPokemon,
 } from '../pokemon'
 
-class ErrorBoundary extends Component {
-  state = {error: null}
-  static getDerivedStateFromError(error) {
-    return {error}
-  }
+// class ErrorBoundary extends Component {
+//   state = {error: null}
+//   static getDerivedStateFromError(error) {
+//     return {error}
+//   }
 
-  render() {
-    const {error} = this.state, {FallbackComponent, children} = this.props;
-    if(error) return <FallbackComponent error={error} />
+//   render() {
+//     const {error} = this.state, {FallbackComponent, children} = this.props;
+//     if(error) return <FallbackComponent error={error} />
 
-    return children
-  }
-}
+//     return children
+//   }
+// }
 
 function PokemonInfo({pokemonName}) {
   const [state, setState] = useState({status: 'idle', pokemon: null, error: null})
