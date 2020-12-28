@@ -87,7 +87,8 @@ function App() {
       <PokemonForm pokemonName={pokemonName} onSubmit={handleSubmit} />
       <hr />
       <div className="pokemon-info">
-        <ErrorBoundary  FallbackComponent={ErrorFallback}>
+        {/* key prop for error boundary enables React to recover from errors proper;y */}
+        <ErrorBoundary  FallbackComponent={ErrorFallback} key={pokemonName}>
         <PokemonInfo pokemonName={pokemonName} />
         </ErrorBoundary>
       </div>
