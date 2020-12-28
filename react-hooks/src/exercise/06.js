@@ -94,7 +94,9 @@ function App() {
       <PokemonForm pokemonName={pokemonName} onSubmit={handleSubmit} />
       <hr />
       <div className="pokemon-info">
-        <ErrorBoundary  FallbackComponent={ErrorFallback} onReset={handleReset}>
+        {/* onReset gives us an opportunity to re-initialize our state into a good place before attempting to re-render the children. */}
+        {/* resetKeys is an array of elements to check each render (if there's currently an error state) */}
+        <ErrorBoundary  FallbackComponent={ErrorFallback} onReset={handleReset} resetKeys={[pokemonName]}>
         <PokemonInfo pokemonName={pokemonName} />
         </ErrorBoundary>
       </div>
