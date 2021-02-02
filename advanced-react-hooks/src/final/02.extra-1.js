@@ -28,6 +28,7 @@ function asyncReducer(state, action) {
   }
 }
 
+// Custom hook foro fetching. Should be wrapped in useCallback for it to run only when needed
 function useAsync(asyncCallback, initialState) {
   const [state, dispatch] = React.useReducer(asyncReducer, {
     status: 'idle',
@@ -54,6 +55,11 @@ function useAsync(asyncCallback, initialState) {
 }
 
 function PokemonInfo({pokemonName}) {
+  /*
+   * The first argument to useCallback is the callback you want called, the second argument is an array of dependencies which is similar to useEffect.
+   *  When one of the dependencies changes between renders, the callback you passed in the first argument will be the one returned from useCallback.
+   *  If they do not change, then you’ll get the callback which was returned the previous time (so the callback remains the same between renders).
+   */
   const asyncCallback = React.useCallback(() => {
     if (!pokemonName) {
       return
