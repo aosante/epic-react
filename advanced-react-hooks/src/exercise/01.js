@@ -3,6 +3,11 @@
 
 import React, {useReducer} from 'react'
 
+/*
+  Thiis commented code is an example of the fact that useReducer does not necessarilly need to
+  follow Redux conveentions.
+*/
+
 // const countReducer = (state, action) => ({...state, ...action})
 // const countReducer = (state, action) => {
 //   return typeof action === 'function' ? action(state) : ({...state, ...action})
