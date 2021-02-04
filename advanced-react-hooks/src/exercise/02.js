@@ -43,7 +43,7 @@ function useAsync(asyncCallback, initialState) {
     dispatch({type: 'pending'})
     promise.then(
       data => {
-        dispatch({type: 'resolved', data})
+        dispatch({type: 'resolved', data}) 
       },
       error => {
         dispatch({type: 'rejected', error})
@@ -54,6 +54,10 @@ function useAsync(asyncCallback, initialState) {
 }
 
 function PokemonInfo({pokemonName}) {
+  /*
+   use Callback allows for useAsync to only run when needed (and when it changes)
+   instead of running on every single render
+  */
   const asyncCallback = React.useCallback(() => {
     if (!pokemonName) {
       return
