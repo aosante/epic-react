@@ -28,18 +28,15 @@ function asyncReducer(state, action) {
   }
 }
 
-function useAsync(asyncCallback, initialState) {
+function useAsync(initialState) {
   const [state, dispatch] = React.useReducer(asyncReducer, {
     status: 'idle',
     data: null,
     error: null,
     ...initialState,
   })
-  React.useEffect(() => {
-    const promise = asyncCallback()
-    if (!promise) {
-      return
-    }
+  
+  const run = React.useCallback(promise => {
     dispatch({type: 'pending'})
     promise.then(
       data => {
@@ -49,26 +46,27 @@ function useAsync(asyncCallback, initialState) {
         dispatch({type: 'rejected', error})
       },
     )
-  }, [asyncCallback])
-  return state
+  }, []) 
+
+  const {data, status, error} = state;
+  return {
+    data, status, error, run
+  }
 }
 
 function PokemonInfo({pokemonName}) {
-  /*
-   use Callback allows for useAsync to only run when needed (and when it changes)
-   instead of running on every single render
-  */
-  const asyncCallback = React.useCallback(() => {
+  
+  const state = useAsync({status: pokemonName ? 'pending' : 'idle',})
+
+ const {data: pokemon, status, error, run} = state
+
+  React.useEffect(() => {
     if (!pokemonName) {
       return
     }
-    return fetchPokemon(pokemonName)
-  }, [pokemonName])
+    run(fetchPokemon(pokemonName))
+  }, [pokemonName, run])
 
-  const state = useAsync(asyncCallback, {
-    status: pokemonName ? 'pending' : 'idle',
-  })
-  const {data: pokemon, status, error} = state
 
   if (status === 'idle') {
     return 'Submit a pokemon'
