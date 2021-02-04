@@ -48,9 +48,8 @@ function useAsync(initialState) {
     )
   }, []) 
 
-  const {data, status, error} = state;
   return {
-    data, status, error, run
+    ...state, run
   }
 }
 
