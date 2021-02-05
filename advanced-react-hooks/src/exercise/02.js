@@ -36,7 +36,7 @@ function useAsync(initialState) {
     ...initialState,
   })
   
-  /**
+  /*
    Whith this run function being part of (and returned by) the useAsync custom hook
    the user of the hook does not have to worry about memooizing the async fetch function themselves
    */
@@ -50,6 +50,12 @@ function useAsync(initialState) {
         dispatch({type: 'rejected', error})
       },
     )
+      /*
+      There are no dependencies needed here, as the run function itself will be passed in 
+      as a dependency to the useEffect called inside the compoonent that uses this useAsync hook
+      making sure that it runs if the memoized callback ever changes. OR if the other dependencies passed in
+      to the useEffect change too.
+      */
   }, []) 
 
   return {
