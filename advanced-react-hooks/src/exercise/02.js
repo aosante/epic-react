@@ -11,6 +11,21 @@ import {
   PokemonErrorBoundary,
 } from '../pokemon'
 
+function useSafeDisptach(dispatch) {
+  /*
+  Note that useRef() is useful for more than the ref attribute. 
+  It’s handy for keeping any mutable value around similar to how you’d use instance fields in classes.
+  */
+  const mountedRef = React.useRef(false)
+
+  React.useEffect(() => {
+    mountedRef.current = true
+    return () => (mountedRef.current = false)
+  }, [])
+
+  return React.useCallback((...args) => (mountedRef.current ? dispatch(...args) : void 0), [dispatch])
+}
+
 function asyncReducer(state, action) {
   switch (action.type) {
     case 'pending': {
@@ -29,12 +44,14 @@ function asyncReducer(state, action) {
 }
 
 function useAsync(initialState) {
-  const [state, dispatch] = React.useReducer(asyncReducer, {
+  const [state, unsafeDispatch] = React.useReducer(asyncReducer, {
     status: 'idle',
     data: null,
     error: null,
     ...initialState,
   })
+
+  const dispatch = useSafeDisptach(unsafeDispatch)
   
   /*
    Whith this run function being part of (and returned by) the useAsync custom hook
@@ -56,7 +73,7 @@ function useAsync(initialState) {
       making sure that it runs if the memoized callback ever changes. OR if the other dependencies passed in
       to the useEffect change too.
       */
-  }, []) 
+  }, [dispatch]) 
 
   return {
     ...state, run
