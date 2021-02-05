@@ -36,6 +36,10 @@ function useAsync(initialState) {
     ...initialState,
   })
   
+  /**
+   Whith this run function being part of (and returned by) the useAsync custom hook
+   the user of the hook does not have to worry about memooizing the async fetch function themselves
+   */
   const run = React.useCallback(promise => {
     dispatch({type: 'pending'})
     promise.then(
