@@ -11,30 +11,35 @@ import {
   PokemonErrorBoundary,
 } from '../pokemon'
 
-/* 
-This one's a bit tricky, and I'm going to be intentionally vague here to give
-you a bit of a challenge, but consider the scenario where we fetch a pokemon,
-and before the request finishes, we change our mind and navigate to a different
-page (or uncheck the mount checkbox). In that case, the component would get
-removed from the page ("unmounted") and when the request finally does complete,
-it will call `dispatch`, but because the component has been removed from the
-page, we'll get a warning from react.
-*/
+  /* 
+    This one's a bit tricky, and I'm going to be intentionally vague here to give
+    you a bit of a challenge, but consider the scenario where we fetch a pokemon,
+    and before the request finishes, we change our mind and navigate to a different
+    page (or uncheck the mount checkbox). In that case, the component would get
+    removed from the page ("unmounted") and when the request finally does complete,
+    it will call `dispatch`, but because the component has been removed from the
+    page, we'll get a warning from react.
+  */
 
-/*
-The best solution for this rpoblem would be to 
-but even then, we'd have to handle the error and prevent the `dispatch` from
-being called for the rejected promise. This is the problem that this next custoom hook solves for us.
-*/
+  /*
+    The best solution for this rpoblem would be to 
+    but even then, we'd have to handle the error and prevent the `dispatch` from
+    being called for the rejected promise. This is the problem that this next custoom hook solves for us.
+  */
 function useSafeDisptach(dispatch) {
   /*
-  Note that useRef() is useful for more than the ref attribute. 
-  It’s handy for keeping any mutable value around similar to how you’d use instance fields in classes.
-  I this case, we are using it to determine if the component has unmounted or not.
+    Note that useRef() is useful for more than the ref attribute. 
+    It’s handy for keeping any mutable value around similar to how you’d use instance fields in classes.
+    I this case, we are using it to determine if the component has unmounted or not.
   */
   const mountedRef = React.useRef(false)
 
-  React.useEffect(() => {
+  /* 
+    In this case, useLayoutEffect allows us to not have to wait for the browser
+    to paint the screen. So the function is called as soon as the component is mounted without waiting for painting.
+    And the cleanup function is also executed when unmounted without waiting foor anything either.
+  */
+  React.useLayoutEffect(() => {
     mountedRef.current = true
     return () => (mountedRef.current = false)
   }, [])
