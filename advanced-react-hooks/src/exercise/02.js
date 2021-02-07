@@ -30,6 +30,7 @@ function useSafeDisptach(dispatch) {
   /*
   Note that useRef() is useful for more than the ref attribute. 
   It’s handy for keeping any mutable value around similar to how you’d use instance fields in classes.
+  I this case, we are using it to determine if the component has unmounted or not.
   */
   const mountedRef = React.useRef(false)
 
