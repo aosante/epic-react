@@ -11,6 +11,21 @@ import {
   PokemonErrorBoundary,
 } from '../pokemon'
 
+/* 
+This one's a bit tricky, and I'm going to be intentionally vague here to give
+you a bit of a challenge, but consider the scenario where we fetch a pokemon,
+and before the request finishes, we change our mind and navigate to a different
+page (or uncheck the mount checkbox). In that case, the component would get
+removed from the page ("unmounted") and when the request finally does complete,
+it will call `dispatch`, but because the component has been removed from the
+page, we'll get a warning from react.
+*/
+
+/*
+The best solution for this rpoblem would be to 
+but even then, we'd have to handle the error and prevent the `dispatch` from
+being called for the rejected promise. This is the problem that this next custoom hook solves for us.
+*/
 function useSafeDisptach(dispatch) {
   /*
   Note that useRef() is useful for more than the ref attribute. 
