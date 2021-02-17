@@ -10,6 +10,7 @@
 import * as React from 'react'
 
 // 🐨 wrap this in a React.forwardRef and accept `ref` as the second argument
+// forwardRef allows us to aaccept `ref` as the second argument of the function component (second after props)
 const MessagesDisplay = React.forwardRef(function MessagesDisplay({messages}, ref) {
   const containerRef = React.useRef()
   React.useLayoutEffect(() => {
