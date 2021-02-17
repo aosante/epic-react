@@ -1,6 +1,12 @@
 // useImperativeHandle: scroll to top/bottom
 // http://localhost:3000/isolated/exercise/05.js
 
+/*
+  useImperativeHandle customizes the instance value that is exposed to parent components when using ref.
+  As always, imperative code using refs should be avoided in most cases 
+  useImperativeHandle should be used with forwardRef
+ */
+
 import * as React from 'react'
 
 // 🐨 wrap this in a React.forwardRef and accept `ref` as the second argument
