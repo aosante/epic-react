@@ -1,25 +1,36 @@
 // useImperativeHandle: scroll to top/bottom
 // http://localhost:3000/isolated/exercise/05.js
 
+/*
+  useImperativeHandle customizes the instance value that is exposed to parent components when using ref.
+  As always, imperative code using refs should be avoided in most cases 
+  useImperativeHandle should be used with forwardRef
+ */
+
 import * as React from 'react'
 
 // 🐨 wrap this in a React.forwardRef and accept `ref` as the second argument
-function MessagesDisplay({messages}) {
+// forwardRef allows us to aaccept `ref` as the second argument of the function component (second after props)
+const MessagesDisplay = React.forwardRef(function MessagesDisplay({messages}, ref) {
   const containerRef = React.useRef()
   React.useLayoutEffect(() => {
     scrollToBottom()
   })
 
   // 💰 you're gonna want this as part of your imperative methods
-  // function scrollToTop() {
-  //   containerRef.current.scrollTop = 0
-  // }
+  function scrollToTop() {
+    containerRef.current.scrollTop = 0
+  }
+
   function scrollToBottom() {
     containerRef.current.scrollTop = containerRef.current.scrollHeight
   }
 
   // 🐨 call useImperativeHandle here with your ref and a callback function
   // that returns an object with scrollToTop and scrollToBottom
+  React.useImperativeHandle(ref, () => ({
+    scrollToBottom, scrollToTop
+  }))
 
   return (
     <div ref={containerRef} role="log">
@@ -31,7 +42,7 @@ function MessagesDisplay({messages}) {
       ))}
     </div>
   )
-}
+})
 
 function App() {
   const messageDisplayRef = React.useRef()

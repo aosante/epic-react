@@ -1,6 +1,5 @@
 import React from 'react'
 import {render} from '@testing-library/react'
-// import App from '../final/05'
 import App from '../exercise/05'
 
 test('calls VanillaTilt.init with the root node', () => {
