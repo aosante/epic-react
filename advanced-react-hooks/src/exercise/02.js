@@ -11,7 +11,7 @@ import {
   PokemonErrorBoundary,
 } from '../pokemon'
 
-  /* 
+/* 
     This one's a bit tricky, and I'm going to be intentionally vague here to give
     you a bit of a challenge, but consider the scenario where we fetch a pokemon,
     and before the request finishes, we change our mind and navigate to a different
@@ -21,8 +21,8 @@ import {
     page, we'll get a warning from react.
   */
 
-  /*
-    The best solution for this rpoblem would be to 
+/*
+    The best solution for this problem would be to cancel the request
     but even then, we'd have to handle the error and prevent the `dispatch` from
     being called for the rejected promise. This is the problem that this next custoom hook solves for us.
   */
@@ -44,7 +44,10 @@ function useSafeDisptach(dispatch) {
     return () => (mountedRef.current = false)
   }, [])
 
-  return React.useCallback((...args) => (mountedRef.current ? dispatch(...args) : void 0), [dispatch])
+  return React.useCallback(
+    (...args) => (mountedRef.current ? dispatch(...args) : void 0),
+    [dispatch],
+  )
 }
 
 function asyncReducer(state, action) {
@@ -73,39 +76,42 @@ function useAsync(initialState) {
   })
 
   const dispatch = useSafeDisptach(unsafeDispatch)
-  
+
   /*
    Whith this run function being part of (and returned by) the useAsync custom hook
    the user of the hook does not have to worry about memooizing the async fetch function themselves
    */
-  const run = React.useCallback(promise => {
-    dispatch({type: 'pending'})
-    promise.then(
-      data => {
-        dispatch({type: 'resolved', data}) 
-      },
-      error => {
-        dispatch({type: 'rejected', error})
-      },
-    )
+  const run = React.useCallback(
+    promise => {
+      dispatch({type: 'pending'})
+      promise.then(
+        data => {
+          dispatch({type: 'resolved', data})
+        },
+        error => {
+          dispatch({type: 'rejected', error})
+        },
+      )
       /*
       There are no dependencies needed here, as the run function itself will be passed in 
       as a dependency to the useEffect called inside the compoonent that uses this useAsync hook
       making sure that it runs if the memoized callback ever changes. OR if the other dependencies passed in
       to the useEffect change too.
       */
-  }, [dispatch]) 
+    },
+    [dispatch],
+  )
 
   return {
-    ...state, run
+    ...state,
+    run,
   }
 }
 
 function PokemonInfo({pokemonName}) {
-  
-  const state = useAsync({status: pokemonName ? 'pending' : 'idle',})
+  const state = useAsync({status: pokemonName ? 'pending' : 'idle'})
 
- const {data: pokemon, status, error, run} = state
+  const {data: pokemon, status, error, run} = state
 
   React.useEffect(() => {
     if (!pokemonName) {
@@ -113,7 +119,6 @@ function PokemonInfo({pokemonName}) {
     }
     run(fetchPokemon(pokemonName))
   }, [pokemonName, run])
-
 
   if (status === 'idle') {
     return 'Submit a pokemon'
