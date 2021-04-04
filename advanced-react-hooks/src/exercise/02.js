@@ -94,8 +94,8 @@ function useAsync(initialState) {
       )
       /*
       There are no dependencies needed here, as the run function itself will be passed in 
-      as a dependency to the useEffect called inside the compoonent that uses this useAsync hook
-      making sure that it runs if the memoized callback ever changes. OR if the other dependencies passed in
+      as a dependency to the useEffect called inside the component that uses this useAsync hook
+      making sure that it runs if the memoized callback ever changes, OR if the other dependencies passed in
       to the useEffect change too.
       */
     },
