@@ -37,7 +37,7 @@ function useSafeDisptach(dispatch) {
   /* 
     In this case, useLayoutEffect allows us to not have to wait for the browser
     to paint the screen. So the function is called as soon as the component is mounted without waiting for painting.
-    And the cleanup function is also executed when unmounted without waiting foor anything either.
+    And the cleanup function is also executed when unmounted without waiting for anything either.
   */
   React.useLayoutEffect(() => {
     // component has been mounted
