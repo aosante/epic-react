@@ -78,8 +78,8 @@ function useAsync(initialState) {
   const dispatch = useSafeDisptach(unsafeDispatch)
 
   /*
-   Whith this run function being part of (and returned by) the useAsync custom hook
-   the user of the hook does not have to worry about memooizing the async fetch function themselves
+   With this run function being part of (and returned by) the useAsync custom hook
+   the user of the hook does not have to worry about memoizing the async fetch function themselves
    */
   const run = React.useCallback(
     promise => {
