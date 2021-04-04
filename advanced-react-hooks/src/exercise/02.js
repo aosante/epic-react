@@ -40,7 +40,9 @@ function useSafeDisptach(dispatch) {
     And the cleanup function is also executed when unmounted without waiting foor anything either.
   */
   React.useLayoutEffect(() => {
+    // component has been mounted
     mountedRef.current = true
+    // component has now unmounted
     return () => (mountedRef.current = false)
   }, [])
 
