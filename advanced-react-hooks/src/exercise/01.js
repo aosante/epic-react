@@ -8,6 +8,7 @@ import React, {useReducer} from 'react'
   follow Redux conveentions.
 */
 
+// const countReducer = (count, step) => count + step
 // const countReducer = (state, action) => ({...state, ...action})
 // const countReducer = (state, action) => {
 //   return typeof action === 'function' ? action(state) : ({...state, ...action})
@@ -15,19 +16,20 @@ import React, {useReducer} from 'react'
 
 const countReducer = (state, action) => {
   const {type, step} = action
-  switch(type) {
+  switch (type) {
     case 'INCREMENT':
       return {
-        ...state, count: state.count + step
+        ...state,
+        count: state.count + step,
       }
-      default:
-        throw new Error(`Unssported action type: ${type}`)
+    default:
+      throw new Error(`Unssported action type: ${type}`)
   }
 }
 function Counter({initialCount = 0, step = 1}) {
   // 🐨 replace React.useState with React.useReducer.
   // 💰 React.useReducer(countReducer, initialCount)
-  const [state, dispatch] = useReducer(countReducer, {count: initialCount});
+  const [state, dispatch] = useReducer(countReducer, {count: initialCount})
   const {count} = state
 
   // 💰 you can write the countReducer function so you don't have to make any changes to the next two lines of code! Remember:
