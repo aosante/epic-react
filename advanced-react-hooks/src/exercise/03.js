@@ -14,9 +14,8 @@ const CountContext = React.createContext()
 
 const CountProvider = props => {
   const [count, setCount] = React.useState(0)
-  const value = [count, setCount]
 
-  return <CountContext.Provider value={value} {...props} />
+  return <CountContext.Provider value={[count, setCount]} {...props} />
 }
 
 const useCount = () => {
