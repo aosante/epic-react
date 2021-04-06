@@ -3,14 +3,14 @@
 
 /*
   useImperativeHandle customizes the instance value that is exposed to parent components when using ref.
-  As always, imperative code using refs should be avoided in most cases 
+  As always, imperative code using refs should be avoided in most cases.
   useImperativeHandle should be used with forwardRef
 */
 
 import * as React from 'react'
 
 // 🐨 wrap this in a React.forwardRef and accept `ref` as the second argument
-// forwardRef allows us to aaccept `ref` as the second argument of the function component (second after props)
+// forwardRef allows us to accept `ref` as the second argument of the function component (second after props)
 const MessagesDisplay = React.forwardRef(function MessagesDisplay(
   {messages},
   ref,
