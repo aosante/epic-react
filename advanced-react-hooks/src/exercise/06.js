@@ -2,18 +2,15 @@
 // http://localhost:3000/isolated/exercise/06.js
 
 // useDebugValue can be used to display a label for custom hooks in React DevTools.
-// useDebugValue accepts a formatting function as an optional second parameter. e.g. -> useDebugValue(date, date => date.toDateString()); 
+// useDebugValue accepts a formatting function as an optional second parameter. e.g. -> useDebugValue(date, date => date.toDateString());
 
 import * as React from 'react'
-
-// const formatDebugValue = ({query, state}) => `\`${query}\` => ${state}`
 
 function useMedia(query, initialState = false) {
   const [state, setState] = React.useState(initialState)
   // 🐨 call React.useDebugValue here.
   // 💰 here's the formatted label I use: `\`${query}\` => ${state}`
   React.useDebugValue(`\`${query}\` => ${state}`)
-  // React.useDebugValue({query, state}, formatDebugValue)
 
   React.useEffect(() => {
     let mounted = true
@@ -25,14 +22,12 @@ function useMedia(query, initialState = false) {
       setState(Boolean(mql.matches))
     }
 
-    mql.addListener(onChange)
-    // try this:
-    // mql.addEventListener('change', () => onChange)
+    mql.addEventListener('change', () => onChange)
     setState(mql.matches)
 
     return () => {
       mounted = false
-      mql.removeListener(onChange)
+      mql.removeEventListener(onChange)
     }
   }, [query])
 
