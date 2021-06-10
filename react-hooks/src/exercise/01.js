@@ -6,9 +6,8 @@ import React, {useState} from 'react'
 function Greeting({initialName = ''}) {
   const [name, setName] = useState(initialName)
 
-  function handleChange(event) {
+  function handleChange({target: {value}}) {
     // 🐨 update the name here based on event.target.value
-    const {value} = event.target
     setName(value)
   }
 
