@@ -12,26 +12,23 @@ function useLocalStorageState(
   // passing in a function to useState makes it so that it runs only the first time it's rendered.
   const [state, setState] = React.useState(() => {
     const valueInLocalStorage = window.localStorage.getItem(key)
-    if (valueInLocalStorage) {
-      // the try/catch is here in case the localStorage value was set before
-      // we had the serialization in place (like we do in previous extra credits)
-      try {
-        return deserialize(valueInLocalStorage)
-      } catch (error) {
-        window.localStorage.removeItem(key)
-      }
-    }
+    if (valueInLocalStorage) return deserialize(valueInLocalStorage)
+
     return typeof defaultValue === 'function' ? defaultValue() : defaultValue
   })
 
+  // this is used to get an object that can be mutated without triggering re renders
+  // in order to remove from local storage in case the key name used for LS has changed
   const prevKeyRef = React.useRef(key)
 
   React.useEffect(() => {
+    // ----
     const prevKey = prevKeyRef.current
     if (prevKey !== key) {
       window.localStorage.removeItem(prevKey)
     }
     prevKeyRef.current = key
+    // ----
     window.localStorage.setItem(key, serialize(state))
   }, [key, state, serialize])
 
