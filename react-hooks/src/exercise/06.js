@@ -29,9 +29,12 @@ import {
 // }
 
 function PokemonInfo({pokemonName}) {
-  const [state, setState] = useState({status: 'idle', pokemon: null, error: null})
+  const [state, setState] = useState({
+    status: 'idle',
+    pokemon: null,
+    error: null,
+  })
   const {status, pokemon, error} = state
-  
 
   useEffect(() => {
     if (!pokemonName) return
@@ -51,30 +54,29 @@ function PokemonInfo({pokemonName}) {
   //   1. no pokemon name: 'Submit a pokemon'
   //   2. pokemon name but no pokemon: <PokemonInfoFallback name={pokemonName} />
   //   3. pokemon: <PokemonDataView pokemon={pokemon} />
-  if(status === 'idle') {
-    return 'Submit a pokemon'
-  } else if (status === 'pending') {
-    return <PokemonInfoFallback name={pokemonName} />
-  } else if (status === 'rejected') {
-    throw error
-  } else if (status === 'resolved') {
-    return <PokemonDataView pokemon={pokemon} />
-  }
-  // should never be rewached
-  else {
-    return 'Oh oh! Somehting went very wrong'
-  }
 
+  switch (status) {
+    case 'idle':
+      return 'Submit a pokemon'
+    case 'pending':
+      return <PokemonInfoFallback name={pokemonName} />
+    case 'rejected':
+      throw error
+    case 'resolved':
+      return <PokemonDataView pokemon={pokemon} />
+    default:
+      return 'Oh oh! Somehting went very wrong'
+  }
 }
 // https://github.com/bvaughn/react-error-boundary#error-recovery
 
 function ErrorFallback({error, resetErrorBoundary}) {
   return (
     <div role="alert">
-        There was an error:{' '}
-        <pre style={{whiteSpace: 'normal'}}>{error.message}</pre>
-        <button onClick={resetErrorBoundary}>Try again</button>
-      </div>
+      There was an error:{' '}
+      <pre style={{whiteSpace: 'normal'}}>{error.message}</pre>
+      <button onClick={resetErrorBoundary}>Try again</button>
+    </div>
   )
 }
 
@@ -96,8 +98,12 @@ function App() {
       <div className="pokemon-info">
         {/* onReset gives us an opportunity to re-initialize our state into a good place before attempting to re-render the children. */}
         {/* resetKeys is an array of elements to check each render (if there's currently an error state) */}
-        <ErrorBoundary  FallbackComponent={ErrorFallback} onReset={handleReset} resetKeys={[pokemonName]}>
-        <PokemonInfo pokemonName={pokemonName} />
+        <ErrorBoundary
+          FallbackComponent={ErrorFallback}
+          onReset={handleReset}
+          resetKeys={[pokemonName]}
+        >
+          <PokemonInfo pokemonName={pokemonName} />
         </ErrorBoundary>
       </div>
     </div>
