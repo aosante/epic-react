@@ -5,7 +5,7 @@ import React, {useReducer} from 'react'
 
 /*
   Thiis commented code is an example of the fact that useReducer does not necessarilly need to
-  follow Redux conveentions.
+  follow Redux conventions.
 */
 
 // const countReducer = (count, step) => count + step
