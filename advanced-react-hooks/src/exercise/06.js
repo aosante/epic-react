@@ -2,7 +2,8 @@
 // http://localhost:3000/isolated/exercise/06.js
 
 // useDebugValue can be used to display a label for custom hooks in React DevTools.
-// useDebugValue accepts a formatting function as an optional second parameter. e.g. -> useDebugValue(date, date => date.toDateString());
+// It accepts a formatting function as an optional second parameter.
+// e.g. -> useDebugValue(date, date => date.toDateString());
 
 import * as React from 'react'
 
