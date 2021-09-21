@@ -1,12 +1,12 @@
 // useLayoutEffect: auto-scrolling textarea
 // http://localhost:3000/isolated/exercise/04.js
 
-// useLayout effect is basically the same as useEffect but it runs way before. And it does noot wait for the browser to paint the screen
+// useLayout effect is basically the same as useEffect but it runs way before. And it does not wait for the browser to paint the screen.
 
 /*
   Here's the simple rule for when you should use useLayoutEffect: If you are
   making observable changes to the DOM, then it should happen in
-  useLayoutEffect, otherwise useEffect.
+  useLayoutEffect, otherwise use useEffect.
  */
 
 import * as React from 'react'
