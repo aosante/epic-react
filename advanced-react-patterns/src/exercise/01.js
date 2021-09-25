@@ -73,9 +73,11 @@ function useUser() {
   return context
 }
 
-// 🐨 add a function here called `updateUser`
-// Then go down to the `handleSubmit` from `UserSettings` and put that logic in
-// this function. It should accept: dispatch, user, and updates
+// THIS is the context module function that takes of calling dispatch
+// along with the appropiate action types and at the right moment in time
+
+// This way, UserSettings gets cleaned up and does not have to worry about
+// this async logica action types
 async function updateUser(dispatch, user, updates) {
   dispatch({type: 'start update', updates})
   try {
