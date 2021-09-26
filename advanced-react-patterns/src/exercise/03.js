@@ -29,7 +29,7 @@ function Toggle({children}) {
 // 📜 https://reactjs.org/docs/hooks-reference.html#usecontext
 function useToggle() {
   const context = React.useContext(ToggleContext)
-  if (context === undefined) {
+  if (!context) {
     throw new Error(`useToggle must be used within a UserProvider`)
   }
   return context
