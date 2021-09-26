@@ -25,8 +25,6 @@ function Toggle({children}) {
 // ToggleContext now
 // 🦉 You can create a helper method to retrieve the context here. Thanks to that,
 // your context won't be exposed to the user
-// 💰 `const context = React.useContext(ToggleContext)`
-// 📜 https://reactjs.org/docs/hooks-reference.html#usecontext
 function useToggle() {
   const context = React.useContext(ToggleContext)
   if (!context) {
