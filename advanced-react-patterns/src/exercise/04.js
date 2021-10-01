@@ -4,6 +4,7 @@
 import * as React from 'react'
 import {Switch} from '../switch'
 
+// only calls the functions you pass in if they exist
 const callAll =
   (...fns) =>
   (...args) =>
