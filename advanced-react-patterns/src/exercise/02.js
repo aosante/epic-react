@@ -11,6 +11,7 @@ function Toggle({children}) {
   // 🐨 replace this with a call to React.Children.map and map each child in
   // props.children to a clone of that child with the props they need using
   return React.Children.map(children, child => {
+    // this string type checking enables support to pass in DOM components (like a div) as children.
     return typeof child.type === 'string'
       ? child
       : React.cloneElement(child, {on, toggle})
