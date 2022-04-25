@@ -1,4 +1,11 @@
 Add the following hooks in here:
 
-1. useLocalStorage custom hook
-2. useContext custom hook
+1. useLocalStorage custom hook (found in react-hooks > src > utils.js)
+2. useContext custom hook validation 
+const useCount = () => {
+  const context = React.useContext(CountContext)
+  if (!context) throw Error('useCount should be used with a CountProvider')
+  return context
+}
+3. useAsync custom hook (found in advanced-react-hooks > src > utils.js)
+4. stateReducer pattern hook (found in advanced-react-patters > src > exercise > 05.js)
