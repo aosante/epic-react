@@ -73,7 +73,7 @@ function useUser() {
   return context
 }
 
-// THIS is the context module function that takes of calling dispatch
+// THIS is the context module function that takes care of calling dispatch
 // along with the appropiate action types and at the right moment in time
 
 // This way, UserSettings gets cleaned up and does not have to worry about
@@ -109,6 +109,11 @@ function UserSettings() {
   function handleSubmit(event) {
     event.preventDefault()
     // 🐨 move the following logic to the `updateUser` function you create above
+    /*
+      Instead of having to write the dispatch functions in the write order, with the
+      correct action types, and the correct payloads, our context module function called
+      updateUser() takes care of all that.
+    */
     updateUser(userDispatch, user, formState).catch(() => {})
   }
 
