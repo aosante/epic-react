@@ -127,18 +127,21 @@ function useToggle({
     onChange?.(reducer({...state, on}, action), action)
   }
 
-  useControlledSwitchWarning(controlledOn, 'on', 'useToggle')
-  useOnChangeReadOnlyWarning(
-    controlledOn,
-    'on',
-    'useToggle',
-    Boolean(onChange),
-    readOnly,
-    'readOnly',
-    'initialOn',
-    'onChange',
-  )
-
+  if (process.env.NODE_ENV !== 'production') {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useControlledSwitchWarning(controlledOn, 'on', 'useToggle')
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useOnChangeReadOnlyWarning(
+      controlledOn,
+      'on',
+      'useToggle',
+      Boolean(onChange),
+      readOnly,
+      'readOnly',
+      'initialOn',
+      'onChange',
+    )
+  }
   // make these call `dispatchWithOnChange` instead
   const toggle = () => dispatchWithOnChange({type: actionTypes.toggle})
   const reset = () =>
