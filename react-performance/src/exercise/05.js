@@ -11,6 +11,7 @@ import {
 } from '../utils'
 
 const AppStateContext = React.createContext()
+const AppDispatchContext = React.createContext()
 
 const initialGrid = Array.from({length: 100}, () =>
   Array.from({length: 100}, () => Math.random() * 100),
@@ -40,10 +41,13 @@ function AppProvider({children}) {
   })
   // 🐨 memoize this value with React.useMemo
   // the components that consume this provider will re-render only if the state has really changed. Not just if the AppProvider gets re-rendered.
-  const value = React.useMemo(() => [state, dispatch], [state]) // good idea to implement in many context providers
+  // const value = React.useMemo(() => [state, dispatch], [state]) // good idea to implement in many context providers
   return (
-    <AppStateContext.Provider value={value}>
-      {children}
+    <AppStateContext.Provider value={state}>
+      {/* we separate the contexts so that the grid doesn't re-render when a cell is clicked and re-rendered. */}
+      <AppDispatchContext.Provider value={dispatch}>
+        {children}
+      </AppDispatchContext.Provider>
     </AppStateContext.Provider>
   )
 }
@@ -56,8 +60,16 @@ function useAppState() {
   return context
 }
 
+function useAppDispatch() {
+  const context = React.useContext(AppDispatchContext)
+  if (!context) {
+    throw new Error('useAppDispatch must be used within the AppProvider')
+  }
+  return context
+}
+
 function Grid() {
-  const [, dispatch] = useAppState()
+  const dispatch = useAppDispatch()
   const [rows, setRows] = useDebouncedState(50)
   const [columns, setColumns] = useDebouncedState(50)
   const updateGridData = () => dispatch({type: 'UPDATE_GRID'})
@@ -75,7 +87,8 @@ function Grid() {
 Grid = React.memo(Grid)
 
 function Cell({row, column}) {
-  const [state, dispatch] = useAppState()
+  const state = useAppState()
+  const dispatch = useAppDispatch()
   const cell = state.grid[row][column]
   const handleClick = () => dispatch({type: 'UPDATE_GRID_CELL', row, column})
   return (
@@ -94,7 +107,8 @@ function Cell({row, column}) {
 Cell = React.memo(Cell)
 
 function DogNameInput() {
-  const [state, dispatch] = useAppState()
+  const state = useAppState()
+  const dispatch = useAppDispatch()
   const {dogName} = state
 
   function handleChange(event) {
