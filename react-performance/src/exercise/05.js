@@ -39,7 +39,8 @@ function AppProvider({children}) {
     grid: initialGrid,
   })
   // 🐨 memoize this value with React.useMemo
-  const value = [state, dispatch]
+  // the components that consume this provider will re-render only if the state has really changed. Not just if the AppProvider gets re-rendered.
+  const value = React.useMemo(() => [state, dispatch], [state]) // good idea to implement in many context providers
   return (
     <AppStateContext.Provider value={value}>
       {children}
