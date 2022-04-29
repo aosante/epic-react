@@ -25,11 +25,11 @@ function App() {
           Profiled counter
           <Counter />
         </div>
-        <div>
-          Unprofiled counter
-          <Counter />
-        </div>
       </React.Profiler>
+      <div>
+        Unprofiled counter
+        <Counter />
+      </div>
     </div>
   )
 }
