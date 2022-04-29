@@ -39,7 +39,7 @@ function appReducer(state, action) {
 
 function AppProvider({children}) {
   const [state, dispatch] = React.useReducer(appReducer, {
-    // 💣 remove the dogName state because we're no longer managing that
+    // 💣 remove the dogName state because we're no longer managing that with this provider
     // dogName: '',
     grid: initialGrid,
   })
@@ -111,9 +111,18 @@ function Grid() {
 }
 Grid = React.memo(Grid)
 
-function Cell({row, column}) {
-  const state = useAppState()
-  const cell = state.grid[row][column]
+// this serves the purpose of only re-rendering the cell that needs to re-render. All other Cell components won't re-render
+function withStateSlice(Comp, slice) {
+  const MemoComp = React.memo(Comp)
+  function Wrapper(props, ref) {
+    const state = useAppState()
+    return <MemoComp ref={ref} state={slice(state, props)} {...props} />
+  }
+  Wrapper.displayName = `withStateSlice(${Comp.displayName || Comp.name})`
+  return React.memo(React.forwardRef(Wrapper))
+}
+
+function Cell({state: cell, row, column}) {
   const dispatch = useAppDispatch()
   const handleClick = () => dispatch({type: 'UPDATE_GRID_CELL', row, column})
   return (
@@ -129,7 +138,7 @@ function Cell({row, column}) {
     </button>
   )
 }
-Cell = React.memo(Cell)
+Cell = withStateSlice(Cell, (state, {row, column}) => state.grid[row][column])
 
 function DogNameInput() {
   const [state, dispatch] = useDogState()
@@ -137,7 +146,6 @@ function DogNameInput() {
 
   function handleChange(event) {
     const newDogName = event.target.value
-    // 🐨 change this to call your state setter that you get from useState
     dispatch({type: 'TYPED_IN_DOG_INPUT', dogName: newDogName})
   }
 
