@@ -69,6 +69,8 @@ function App() {
   // }, [inputValue, run])
 
   // 🐨 wrap getItems in a call to `React.useMemo`
+  // getItems gets a list from a json file with a huge number of items in it.
+  // This is an expensive function and using useMemo makes a ton of sense
   const allItems = React.useMemo(() => getItems(inputValue), [inputValue])
   const items = allItems.slice(0, 100)
 
