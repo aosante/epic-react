@@ -49,7 +49,7 @@ test('counter increments and decrements when the buttons are clicked', () => {
   act(() => decrement.dispatchEvent(clickEvent))
   expect(message.textContent).toBe('Current count: 0')
   // 🐨 cleanup by removing the div from the page (💰 div.remove())
-  // div.remove()
+  div.remove()
   // 🦉 If you don't cleanup, then it could impact other tests and/or cause a memory leak
 })
 
