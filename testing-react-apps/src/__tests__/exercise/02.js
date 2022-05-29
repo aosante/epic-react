@@ -5,6 +5,7 @@ import * as React from 'react'
 import {act} from 'react-dom/test-utils'
 import {createRoot} from 'react-dom/client'
 // 🐨 import the `render` and `fireEvent` utilities from '@testing-library/react'
+// import {render, fireEvent} from '@testing-library/react'
 import Counter from '../../components/counter'
 
 // NOTE: this is a new requirement in React 18
