@@ -34,11 +34,19 @@ test('counter increments and decrements when the buttons are clicked', () => {
   expect(message.textContent).toBe('Current count: 0')
   // 🐨 click the increment button (💰 act(() => increment.click())
   // 🐨 assert the message.textContent
-  act(() => increment.click())
+  const clickEvent = new MouseEvent('click', {
+    bubbles: true,
+    cancelable: true,
+    button: 0,
+  })
+  // act(() => increment.click())
+  act(() => increment.dispatchEvent(clickEvent))
+  // can also use dispatchEvent when there is no dedicated method (like for mouseover for example)
   expect(message.textContent).toBe('Current count: 1')
   // 🐨 click the decrement button (💰 act(() => decrement.click()))
   // 🐨 assert the message.textContent
-  act(() => decrement.click())
+  // act(() => decrement.click())
+  act(() => decrement.dispatchEvent(clickEvent))
   expect(message.textContent).toBe('Current count: 0')
   // 🐨 cleanup by removing the div from the page (💰 div.remove())
   // div.remove()
