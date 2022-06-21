@@ -16,7 +16,7 @@ test('counter increments and decrements when the buttons are clicked', async () 
   const message = screen.getByText(/current count/i)
 
   expect(message).toHaveTextContent('Current count: 0')
-  await userEvent.click(increment)
+  await userEvent.click(increment) // userEvent fires all the events that really happen when the user interacts with the button (not just the click event)
   expect(message).toHaveTextContent('Current count: 1')
   await userEvent.click(decrement)
   expect(message).toHaveTextContent('Current count: 0')
