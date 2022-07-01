@@ -2,7 +2,7 @@ import './test/server'
 import './styles.css'
 
 import * as React from 'react'
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom/client'
 import {ErrorBoundary} from 'react-error-boundary'
 import importAll from 'import-all.macro'
 
@@ -64,4 +64,9 @@ function App() {
   )
 }
 
-ReactDOM.render(<App />, document.getElementById('⚛'))
+const root = ReactDOM.createRoot(document.getElementById('⚛'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);

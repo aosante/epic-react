@@ -1,7 +1,7 @@
 // useState: tic tac toe
 // http://localhost:3000/isolated/exercise/04-classes.js
 
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import {useLocalStorageState} from '../utils'
 
 // If you'd rather practice refactoring a class component to a function
