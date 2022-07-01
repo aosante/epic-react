@@ -4,10 +4,20 @@
 import * as React from 'react'
 import {render, screen} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import faker from 'faker'
 import Login from '../../components/login'
 
+const buildLoginForm = () => ({ password: faker.internet.password(), username: faker.internet.userName() })
+
 test('submitting the form calls onSubmit with username and password', async () => {
-  const username = 'myusername', password = 'mypassword'
+  // const getRandomPassword = () => faker.internet.password()
+  // const getRandomUsername = () => faker.internet.userName()
+  
+  // const password = getRandomPassword()
+  // const username = getRandomUsername()
+
+  const { username, password } = buildLoginForm()
+
   // 🐨 create a variable called "submittedData" and a handleSubmit function that
   // accepts the data and assigns submittedData to the data that was submitted
   // let submittedData
