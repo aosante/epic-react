@@ -3,20 +3,32 @@
 
 import * as React from 'react'
 import {render, screen} from '@testing-library/react'
+import {build, fake} from '@jackfranklin/test-data-bot'
+// import faker from 'faker'
 import userEvent from '@testing-library/user-event'
-import faker from 'faker'
 import Login from '../../components/login'
 
-const buildLoginForm = () => ({ password: faker.internet.password(), username: faker.internet.userName() })
+// const buildLoginForm = overrides => ({
+//   password: faker.internet.password(),
+//   username: faker.internet.userName(),
+//   ...overrides,
+// })
+
+const buildLoginForm = build({
+  fields: {
+    username: fake(f => f.internet.userName()),
+    password: fake(f => f.internet.password()),
+  },
+})
 
 test('submitting the form calls onSubmit with username and password', async () => {
   // const getRandomPassword = () => faker.internet.password()
   // const getRandomUsername = () => faker.internet.userName()
-  
+
   // const password = getRandomPassword()
   // const username = getRandomUsername()
 
-  const { username, password } = buildLoginForm()
+  const {username, password} = buildLoginForm({})
 
   // 🐨 create a variable called "submittedData" and a handleSubmit function that
   // accepts the data and assigns submittedData to the data that was submitted
@@ -43,7 +55,7 @@ test('submitting the form calls onSubmit with username and password', async () =
   //   username,
   //   password,
   // })
-  expect(handleSubmit).toHaveBeenCalledWith({ username, password })
+  expect(handleSubmit).toHaveBeenCalledWith({username, password})
   expect(handleSubmit).toHaveBeenCalledTimes(1)
 })
 
