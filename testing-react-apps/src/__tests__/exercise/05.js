@@ -7,8 +7,9 @@ import {render, screen, waitForElementToBeRemoved} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import {build, fake} from '@jackfranklin/test-data-bot'
 // 🐨 you'll need to import rest from 'msw' and setupServer from msw/node
-import {rest} from 'msw'
+// import {rest} from 'msw'
 import {setupServer} from 'msw/node'
+import {handlers} from 'test/server-handlers'
 import Login from '../../components/login-submission'
 
 const buildLoginForm = build({
@@ -19,20 +20,23 @@ const buildLoginForm = build({
 })
 
 // 🐨 get the server setup with an async function to handle the login POST request:
-const server = setupServer(
-  rest.post(
-    'https://auth-provider.example.com/api/login',
-    async (req, res, ctx) => {
-      if (!req.body.password) {
-        return res(ctx.status(400), ctx.json({message: 'password required'}))
-      }
-      if (!req.body.username) {
-        return res(ctx.status(400), ctx.json({message: 'username required'}))
-      }
-      return res(ctx.json({username: req.body.username}))
-    },
-  ),
-)
+// const server = setupServer(
+//   rest.post(
+//     'https://auth-provider.example.com/api/login',
+//     async (req, res, ctx) => {
+//       if (!req.body.password) {
+//         return res(ctx.status(400), ctx.json({message: 'password required'}))
+//       }
+//       if (!req.body.username) {
+//         return res(ctx.status(400), ctx.json({message: 'username required'}))
+//       }
+//       return res(ctx.json({username: req.body.username}))
+//     },
+//   ),
+// )
+
+// reusing server request handlers
+const server = setupServer(...handlers)
 // you'll want to respond with an JSON object that has the username.
 
 // 🐨 before all the tests, start the server with `server.listen()`
@@ -58,4 +62,16 @@ test(`logging in displays the user's username`, async () => {
   // we render the username.
   // 🐨 assert that the username is on the screen
   expect(screen.getByText(username)).toBeInTheDocument()
+})
+
+test(`logging in without a password displays an error message`, async () => {
+  render(<Login />)
+  const {username} = buildLoginForm()
+
+  await userEvent.type(screen.getByLabelText(/username/i), username)
+  await userEvent.click(screen.getByRole('button', {name: /submit/i}))
+
+  await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i))
+
+  expect(screen.getByRole('alert')).toHaveTextContent('password required')
 })
