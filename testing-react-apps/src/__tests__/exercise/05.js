@@ -34,7 +34,6 @@ const server = setupServer(
   ),
 )
 // you'll want to respond with an JSON object that has the username.
-// 📜 https://mswjs.io/
 
 // 🐨 before all the tests, start the server with `server.listen()`
 // 🐨 after all the tests, stop the server with `server.close()`
