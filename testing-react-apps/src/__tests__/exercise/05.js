@@ -19,7 +19,6 @@ const buildLoginForm = build({
 })
 
 // 🐨 get the server setup with an async function to handle the login POST request:
-// 💰 here's something to get you started
 const server = setupServer(
   rest.post(
     'https://auth-provider.example.com/api/login',
