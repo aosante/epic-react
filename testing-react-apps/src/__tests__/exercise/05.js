@@ -73,5 +73,7 @@ test(`logging in without a password displays an error message`, async () => {
 
   await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i))
 
-  expect(screen.getByRole('alert')).toHaveTextContent('password required')
+  expect(screen.getByRole('alert').textContent).toMatchInlineSnapshot(
+    `"password required"`,
+  )
 })
