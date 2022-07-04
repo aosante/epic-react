@@ -7,7 +7,7 @@ import {render, screen, waitForElementToBeRemoved} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import {build, fake} from '@jackfranklin/test-data-bot'
 // 🐨 you'll need to import rest from 'msw' and setupServer from msw/node
-// import {rest} from 'msw'
+import {rest} from 'msw'
 import {setupServer} from 'msw/node'
 import {handlers} from 'test/server-handlers'
 import Login from '../../components/login-submission'
@@ -43,6 +43,7 @@ const server = setupServer(...handlers)
 // 🐨 after all the tests, stop the server with `server.close()`
 beforeAll(() => server.listen())
 afterAll(() => server.close())
+afterEach(() => server.resetHandlers())
 
 test(`logging in displays the user's username`, async () => {
   render(<Login />)
@@ -76,4 +77,22 @@ test(`logging in without a password displays an error message`, async () => {
   expect(screen.getByRole('alert').textContent).toMatchInlineSnapshot(
     `"password required"`,
   )
+})
+
+test(`a failed server request displays an error message`, async () => {
+  const errorMsg = 'Woops, something went wrong!'
+  server.use(
+    rest.post(
+      'https://auth-provider.example.com/api/login',
+      async (_, res, ctx) => {
+        return res(ctx.status(500), ctx.json({message: errorMsg}))
+      },
+    ),
+  )
+  render(<Login />)
+  await userEvent.click(screen.getByRole('button', {name: /submit/i}))
+
+  await waitForElementToBeRemoved(() => screen.getByLabelText(/loading/i))
+
+  expect(screen.getByRole('alert')).toHaveTextContent(errorMsg)
 })
