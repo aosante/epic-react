@@ -107,6 +107,7 @@ test('displays an error message when an error occurs', async () => {
   expect(screen.getByLabelText(/loading/i)).toBeInTheDocument()
 
   act(() => {
+    // use position returns an error in the second element of the returned array e.g const [position, error] = useCurrentPosition()
     setErrorValue([null, fakeError])
   })
 
