@@ -7,8 +7,30 @@ import {fetchPokemon, PokemonDataView, PokemonErrorBoundary} from '../pokemon'
 
 // 💰 use it like this: fetchPokemon(pokemonName).then(handleSuccess, handleFailure)
 
+const createResource = promise => {
+  let status = 'pending'
+  let result = promise.then(
+    resolved => {
+      status = 'success'
+      result = resolved
+    },
+    rejected => {
+      status = 'error'
+      result = rejected
+    },
+  )
+  return {
+    read() {
+      if (status === 'pending') throw result
+      if (status === 'error') throw result
+      if (status === 'success') return result
+      throw new Error('This should be impossible')
+    },
+  }
+}
+
 // 🐨 create a variable called "pokemon" (using let)
-let pokemon, error
+// let pokemon, error
 
 // 💣 delete this now...
 // const pokemon = {
@@ -23,13 +45,16 @@ let pokemon, error
 // We don't need the app to be mounted to know that we want to fetch the pokemon
 // named "pikachu" so we can go ahead and do that right here.
 // 🐨 assign a pokemonPromise variable to a call to fetchPokemon('pikachu')
-const pokemonPromise = fetchPokemon('pikachu')
-  .then(result => (pokemon = result))
-  .catch(err => (error = err))
+// const pokemonPromise = fetchPokemon('pikachu')
+//   .then(result => (pokemon = result))
+//   .catch(err => (error = err))
+
+let pokemonResource = createResource(fetchPokemon('pikachu'))
 
 function PokemonInfo() {
-  if (error) throw error
-  if (!pokemon) throw pokemonPromise
+  // if (error) throw error
+  // if (!pokemon) throw pokemonPromise
+  const pokemon = pokemonResource.read()
 
   return (
     <div>
