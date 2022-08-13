@@ -3,12 +3,12 @@
 
 import * as React from 'react'
 // 🐨 you'll also need to get the fetchPokemon function from ../pokemon:
-import {fetchPokemon, PokemonDataView} from '../pokemon'
+import {fetchPokemon, PokemonDataView, PokemonErrorBoundary} from '../pokemon'
 
 // 💰 use it like this: fetchPokemon(pokemonName).then(handleSuccess, handleFailure)
 
 // 🐨 create a variable called "pokemon" (using let)
-let pokemon
+let pokemon, error
 
 // 💣 delete this now...
 // const pokemon = {
@@ -23,11 +23,12 @@ let pokemon
 // We don't need the app to be mounted to know that we want to fetch the pokemon
 // named "pikachu" so we can go ahead and do that right here.
 // 🐨 assign a pokemonPromise variable to a call to fetchPokemon('pikachu')
-const pokemonPromise = fetchPokemon('pikachu').then(
-  result => (pokemon = result),
-)
+const pokemonPromise = fetchPokemon('pikachu')
+  .then(result => (pokemon = result))
+  .catch(err => (error = err))
 
 function PokemonInfo() {
+  if (error) throw error
   if (!pokemon) throw pokemonPromise
 
   return (
@@ -46,9 +47,11 @@ function App() {
   return (
     <div className="pokemon-info-app">
       <div className="pokemon-info">
-        <React.Suspense fallback={<div>Loading pokemon...</div>}>
-          <PokemonInfo />
-        </React.Suspense>
+        <PokemonErrorBoundary>
+          <React.Suspense fallback={<div>Loading pokemon...</div>}>
+            <PokemonInfo />
+          </React.Suspense>
+        </PokemonErrorBoundary>
       </div>
     </div>
   )
