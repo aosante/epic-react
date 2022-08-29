@@ -26,7 +26,11 @@ function PokemonInfo({pokemonResource}) {
 // 🐨 create a SUSPENSE_CONFIG variable right here and configure timeoutMs to
 // whatever feels right to you, then try it out and tweak it until you're happy
 // with the experience.
-const SUSPENSE_CONFIG = {timeoutMs: 50000}
+const SUSPENSE_CONFIG = {
+  timeoutMs: 4000,
+  busyDelayMs: 300,
+  busyMinDurationMs: 700,
+}
 
 function createPokemonResource(pokemonName) {
   // 🦉 once you've finished the exercise, play around with the delay...
