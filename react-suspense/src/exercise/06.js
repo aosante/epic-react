@@ -9,6 +9,7 @@ import {
   PokemonForm,
   PokemonDataView,
   PokemonErrorBoundary,
+  usePokemonResource
 } from '../pokemon'
 import {createResource, preloadImage} from '../utils'
 
@@ -48,7 +49,7 @@ function createPokemonResource(pokemonName) {
   return {data, image}
 }
 
-const usePokemonResource = (pokemonName) => {
+const usePokemonResource2 = (pokemonName) => {
   const [startTransition, isPending] = React.useTransition(SUSPENSE_CONFIG)
   const [pokemonResource, setPokemonResource] = React.useState(null)
 
