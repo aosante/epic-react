@@ -7,7 +7,7 @@ import {
   getImageUrlForPokemon,
   PokemonInfoFallback,
   PokemonForm,
-  PokemonDataView,
+  // PokemonDataView,
   PokemonErrorBoundary,
 } from '../pokemon'
 import {createResource} from '../utils'
@@ -52,7 +52,7 @@ function preloadImage(src) {
 // }
 
 // function PokemonInfo({pokemonResource}) {
-//   const pokemon = pokemonResource.read()
+//   const pokemon = pokemonResource.data.read()
 //   return (
 //     <div>
 //       <div className="pokemon-info__img-wrapper">
